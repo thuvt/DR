@@ -16,6 +16,9 @@ ASSUMPTION
 
 - An alternative is to use this public link https://www.getpostman.com/collections/87438c81090cda5b6b7b
 
+ASSUMPTION
+- Restricted to domestic postage only
+
 
 
 
