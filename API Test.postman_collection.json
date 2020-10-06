@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "c943ffce-2811-4383-add3-9d8d37dccaec",
+		"name": "API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Calculate Postage",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0c887299-8107-43d0-952b-e0dd7dc3c6bc",
+						"exec": [
+							"pm.environment.set(\"from\", pm.iterationData.get(\"FROM\"));\r",
+							"pm.environment.set(\"to\", pm.iterationData.get(\"TO\"));\r",
+							"pm.environment.set(\"service_code\", pm.iterationData.get(\"SERVICE_CODE\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6249dda1-e254-43ac-a0a0-1bfdede51d1c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Header has Content-Type and is application/json\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"    pm.response.to.be.header(\"Content-Type\",\"application/json;charset=UTF-8\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify Cost against data\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.postage_result.costs.cost.cost).to.equal(pm.iterationData.get(\"COST\").toString(), \"Service Cost \" + pm.iterationData.get(\"SERVICE_CODE\") + \" has incorrect cost: \" + jsonData.postage_result.costs.cost.cost);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "in",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "value",
+							"value": "1df94237-99c9-4554-bf6e-4a41383f4c02",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "AUTH-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "digitalapi.auspost.com.au/postage/parcel/domestic/calculate.json?length=22&width=16&height=7.7&weight=1.5&from_postcode={{from}}&to_postcode={{to}}&service_code={{service_code}}",
+					"host": [
+						"digitalapi",
+						"auspost",
+						"com",
+						"au"
+					],
+					"path": [
+						"postage",
+						"parcel",
+						"domestic",
+						"calculate.json"
+					],
+					"query": [
+						{
+							"key": "length",
+							"value": "22"
+						},
+						{
+							"key": "width",
+							"value": "16"
+						},
+						{
+							"key": "height",
+							"value": "7.7"
+						},
+						{
+							"key": "weight",
+							"value": "1.5"
+						},
+						{
+							"key": "from_postcode",
+							"value": "{{from}}"
+						},
+						{
+							"key": "to_postcode",
+							"value": "{{to}}"
+						},
+						{
+							"key": "service_code",
+							"value": "{{service_code}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "1df94237-99c9-4554-bf6e-4a41383f4c02",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "AUTH-KEY",
+				"type": "string"
+			}
+		]
+	},
+	"protocolProfileBehavior": {}
+}
